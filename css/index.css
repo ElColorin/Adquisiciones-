@@ -1,0 +1,9 @@
+
+body {
+    background: linear-gradient(150deg, #EEEEEE, #32E0C4, #393E46);
+    height: 100vh;
+}
+
+.buscar{
+    padding: auto;
+}
