@@ -1,0 +1,68 @@
+h1 {
+    text-align: center;
+  }
+  .search-container {
+    max-width: 400px;
+    margin: 0vh auto;
+    padding: 20px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #646363;
+    border-radius: 8px;
+    outline: none;
+  }
+  .card-products-container {
+    margin: 10vh auto;
+    text-align: center;
+  }
+  
+  .card-products {
+    display: inline-block;
+    text-align: center;
+    margin: 0 30px;
+  }
+  
+  .card-products img {
+    height: 180px;
+  }
+  
+  .card-products h3,
+  .card-products .price {
+    margin-top: 10px;
+  }
+  
+  .card-products button {
+    border: none;
+    outline: 0;
+    padding: 10px;
+    color: white;
+    background-color: #1bcb7f;
+    text-align: center;
+    cursor: pointer;
+    width: 80%;
+    font-size: 15px;
+  }
+  
+  .emoji-buttons-container {
+    text-align: center;
+  }
+
+  .emoji-button {
+    background-color: #1bcb7f;
+    color: white;
+    font-size: 30px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  /* Hover effect */
+  .emoji-button:hover {
+    background-color: #17a366;
+    cursor:pointer;
+  }
