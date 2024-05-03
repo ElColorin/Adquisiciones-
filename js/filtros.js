@@ -1,20 +1,20 @@
 const products = [
     {
-      productName: "",
+      productName: "Monitor Acer",
       price: 15,
-      img: "",
+      img: "https://i.blogs.es/61c495/pantalla/1366_2000.jpg",
       category: 'monitores'
     },
     {
-      productName: "",
+      productName: "Monitor LG",
       price: 30,
-      img: "",
+      img: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.lg.com%2Fcl%2Fmonitores%2Ffhd-y-qhd%2F&psig=AOvVaw32RgWDywN1yYMFCbBbdOy4&ust=1714783300086000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDpuN2f8IUDFQAAAAAdAAAAABAM",
       category: 'monitores'
     },
     {
-      productName: "",
+      productName: "Monitor 22 Full HD",
       price: 80,
-      img: "",
+      img: "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftic-online-store.cl%2Fproducto%2Fsamsung-2%2F&psig=AOvVaw32RgWDywN1yYMFCbBbdOy4&ust=1714783300086000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPDpuN2f8IUDFQAAAAAdAAAAABAU",
       category: 'compus'
     },
     {
