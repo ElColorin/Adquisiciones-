@@ -1,0 +1,97 @@
+h1 {
+    text-align: center;
+  }
+  .search-container {
+    max-width: 400px;
+    margin: 0vh auto;
+    padding: 20px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #646363;
+    border-radius: 8px;
+    outline: none;
+  }
+  .card-products-container {
+    margin: 10vh auto;
+    text-align: center;
+  }
+  
+  .card-products {
+    display: inline-block;
+    text-align: center;
+    margin: 0 30px;
+  }
+  
+  .card-products img {
+    height: 180px;
+  }
+  
+  .card-products h3,
+  .card-products .price {
+    margin-top: 10px;
+  }
+  
+  .card-products button {
+    border: none;
+    outline: 0;
+    padding: 10px;
+    color: white;
+    background-color: #1bcb7f;
+    text-align: center;
+    cursor: pointer;
+    width: 80%;
+    font-size: 15px;
+  }
+  
+  
+  .emoji-buttons-container {
+    text-align: left;
+  }
+
+  .emoji-button {
+    background-color: #1bcb7f;
+    color: white;
+    font-size: 30px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  /* Hover effect */
+  .emoji-button:hover {
+    background-color: #17a366;
+    cursor:pointer;
+  }
+
+  .barra {
+    width: 200px;
+    height: 100vh; /* Ajustamos la altura para que ocupe toda la altura de la ventana */
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Mantenemos la posición fija para que esté siempre visible */
+    top: 0; /* Lo colocamos al principio de la ventana */
+    left: 0; /* Lo colocamos en el lado izquierdo */
+  }
+  
+  .barra button {
+    display: block; /* Mostramos los botones como bloques para que ocupen todo el ancho */
+    margin-bottom: 10px; /* Espacio entre botones */
+    width: 100%; /* Ancho completo */
+    padding: 10px;
+    background-color: #1bcb7f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .barra button:hover {
+    background-color: #17a366;
+  }
+  

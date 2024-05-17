@@ -1,0 +1,182 @@
+/* Estilos generales del navbar */
+.navbar {
+    background-color: #32E0C4;
+}
+
+.navbar-brand img {
+    width: 250px;
+    margin-right: 50px;
+}
+
+.nav-item {
+    margin-right: 15px;
+}
+
+.nav-item a {
+    color: white;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.navbar-nav .nav-link:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s;
+}
+
+.navbar-nav .nav-link:hover:before {
+    width: 100%;
+}
+
+.dropdown-menu {
+    background-color: #333;
+}
+
+.dropdown-item {
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #555;
+}
+
+
+
+/* Estilos para el formulario de búsqueda */
+.form-control {
+    border-color: #fff;
+    color: #fff;
+}
+
+.form-control::placeholder {
+    color: #aaa;
+}
+
+.btn-outline-success {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-success:hover {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+/* Navbar hover */
+.nav-link {
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #222831;
+}
+
+/* Navbar */
+.contenido {
+    align-items: center;
+    justify-content: center;
+}
+
+
+.mensajeError {
+    margin: 100px;
+}
+
+
+/*Separacion de navbar hacia abajo*/
+.navbar-expand-lg {
+    margin-bottom: 5px;
+}
+
+.btn-outline-success,
+.btn-outline-success:hover,
+.btn-outline-success:active,
+.btn-outline-success:visited {
+    background-color: black;
+    border: white;
+    color: white;
+}
+
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-list {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .menu {
+        display: flex;
+    }
+
+    .cart-counter {
+        position: absolute;
+        top: 9px;
+        right: 630px;
+        background-color: red;
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+    }
+}
+
+@media (max-width: 425px) {
+
+    .cart-counter {
+        position: absolute;
+        top: 9px;
+        right: 340px;
+        background-color: red;
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+    }
+}
+
+@media (max-width: 375px) {
+
+    .cart-counter {
+        position: absolute;
+        top: 9px;
+        right: 295px;
+        background-color: red;
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+    }
+}
+
+@media (max-width: 325px) {
+
+    .cart-counter {
+        position: absolute;
+        top: 9px;
+        right: 240px;
+        background-color: red;
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+    }
+}

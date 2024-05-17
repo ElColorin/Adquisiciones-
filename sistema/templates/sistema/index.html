@@ -1,0 +1,195 @@
+{% load static %}
+{% load i18n %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'sistema/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/style_carrito.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/style_detalle_producto.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/style_navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/style_producto.css' %}">
+    <script src="{% static 'sistema/js/script.js' %}"></script>
+    <script src="{% static 'sistema/js/jquery-3.2.1.js' %}"></script>
+    <link rel="stylesheet" href="{%static 'sistema/css/filtro.css'%}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid container">
+            <a href="../src/index.html" class="navbar-brand"><img src="" alt="">Tienda</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="../src/index.html" class="nav-link">Productos</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <form class="d-flex" role="search" method="GET" action="">
+                        <input class="form-control me-2" name="q" type="search" placeholder="Buscar"
+                            aria-label="Search" />
+                        <button class="btn btn-outline-success" type="submit">
+                            Buscar
+                        </button>
+                    </form>
+                    <li class="nav-item">
+                        <a href="../src/carrito_de_compras.html" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-counter" class="cart-counter"></span>
+                            <span id="cart-counter" class="cart-counter">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="cuentaDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Cuenta
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="cuentaDropdown">
+
+                            <li><a class="dropdown-item" href="">Iniciar Sesion</a></li>
+                            <li><a class="dropdown-item" href="">Cerrar Sesion</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+            <div class="wrap">
+            <h1>Escoge un producto</h1>
+            <div class="store-wrapper">
+                <div class="category_list">
+                    <a href="#" class="category_item" category="all">Todo</a>
+                    <a href="#" class="category_item" category="ordenadores">Ordenadores</a>
+                    <a href="#" class="category_item" category="laptops">Laptops</a>
+                    <a href="#" class="category_item" category="smartphones"></a>
+                    <a href="#" class="category_item" category="monitores">Monitores</a>
+                    <a href="#" class="category_item" category="audifonos">Audifonos</a>
+            </div>
+                <section class="products-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    <div class="col product-item" category="laptops">
+                        <div class="card shadow-sm h-100">
+                            <div class="container-foto">
+                                <article class="articlefotos">
+                                    <img src="{% static 'sistema/img/laptop_hp.jpg' %}">
+                                    <img src="{% static 'sistema/img/laptop_hp.jpg' %}">
+                                </article>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title">Laptop Hp</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="../src/detalle_producto.html" class="btn btn-primary">
+                                            <i class="bi bi-info-circle-fill"> Detalles</i>
+                                        </a>
+                                    </div>
+                                    <a href="" class="btn btn-danger" type="button">
+                                        <i class="bi-cart-fill me-1"> Agregar</i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col product-item" category="smartphones">
+                        <div class="card shadow-sm h-100">
+                            <div class="container-foto">
+                                <article class="articlefotos">
+                                    <img src="{% static 'sistema/img/iphone.jpg' %}">
+                                    <img src="{% static 'sistema/img/iphone.jpg' %}">
+                                </article>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title">iPhone 7</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="../src/detalle_producto.html" class="btn btn-primary">
+                                            <i class="bi bi-info-circle-fill"> Detalles</i>
+                                        </a>
+                                    </div>
+                                    <a href="" class="btn btn-danger" type="button">
+                                        <i class="bi-cart-fill me-1"> Agregar</i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col product-item" category="laptops">
+                        <div class="card shadow-sm h-100">
+                            <div class="container-foto">
+                                <article class="articlefotos">
+                                    <img src="{% static 'sistema/img/laptop_toshiba.jpg' %}">
+                                    <img src="{% static 'sistema/img/laptop_toshiba.jpg' %}">
+                                </article>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title">Laptop toshiba</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="../src/detalle_producto.html" class="btn btn-primary">
+                                            <i class="bi bi-info-circle-fill"> Detalles</i>
+                                        </a>
+                                    </div>
+                                    <a href="" class="btn btn-danger" type="button">
+                                        <i class="bi-cart-fill me-1"> Agregar</i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="grupo-1">
+            <div class="box">
+                <figure>
+                    <a href="">
+                        <img src="" alt="">
+                    </a>
+                </figure>
+            </div>
+            <div class="box">
+                <h2>Sobre Nosotros</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad ipsa sint vero explicabo in distinctio
+                    velit eligendi facere similique excepturi! A aliquam, laboriosam consectetur deleniti totam adipisci
+                    aperiam debitis pariatur.</p>
+            </div>
+            <div class="box">
+                <h2>Síguenos</h2>
+                <div class="red-social">
+                    <a href="#" class="fab fa-facebook -f"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                </div>
+            </div>
+        </div>
+        <div class="grupo-2">
+            <small>&copy;2024 <b>Tienda</b> - Todos los Derechos Reservados.</small>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+/* Estilos para la estructura de producto */
+.product-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.product {
+    width: 300px; /* Ancho del producto */
+    margin: 20px; /* Espacio entre productos */
+    border: 1px solid #ddd; /* Borde alrededor del producto */
+    border-radius: 5px;
+    overflow: hidden; /* Para que los bordes redondeados se apliquen correctamente */
+    background-color: white; /* Fondo blanco */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.product-imgs {
+    text-align: center;
+}
+
+.img-showcase img {
+    max-width: 100%;
+}
+
+.product-content {
+    padding: 20px;
+}
+
+.product-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    margin-bottom: 10px;
+}
+
+.product-detail h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.product-detail ul {
+    list-style: none;
+    padding: 0;
+}
+
+.product-detail ul li {
+    margin-bottom: 5px;
+}
+
+.purchase-info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #c82333;
+}

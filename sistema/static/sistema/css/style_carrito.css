@@ -1,0 +1,77 @@
+/* Estilos para el carrito */
+#fondoCarrito {
+    background-color: #393E46;
+    padding: 20px;
+}
+
+/* Estilos para los encabezados de la tabla */
+.cart-item th {
+    background-color: #32E0C4;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilos para las filas de la tabla */
+.cart-item td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilos para los botones de acción */
+.btn-cart {
+    color: #fff;
+    background-color: #ffc107;
+    border-color: #ffc107;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Estilos para el botón de compra */
+.total button {
+    background-color: #32E0C4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+/* Estilos para el botón de compra al pasar el mouse */
+.total button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para la alerta de carrito vacío */
+.alert-cart {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Estilos para el total */
+.total {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* Estilos para los títulos del total */
+.total h5 {
+    margin-bottom: 20px;
+}
+
+/* Estilos para los elementos dentro del total */
+.total p {
+    margin-bottom: 10px;
+}
+
+/* Estilos para la línea horizontal en el total */
+.total hr {
+    border-top: 1px solid #dee2e6;
+}
