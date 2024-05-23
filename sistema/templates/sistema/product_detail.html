@@ -1,0 +1,21 @@
+{% extends 'sistema/base.html' %}
+{% block contenido %}
+{% load static %}
+{% load humanize %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ p.imagen.url }}" class="img-fluid" alt="{{ p.name }}">
+        </div>
+        <div class="col-md-6">
+            <h1>{{ p.nombre_producto}}</h1>
+            <p>{{ p.descripcion }}</p>
+            <h3><strong>${{ p.precio | intcomma }}</strong></h3>
+            <a href="#" class="btn btn-danger" type="button">
+                <i class="bi-cart-fill me-1"> Agregar al Carrito</i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

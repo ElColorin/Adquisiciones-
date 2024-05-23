@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{% static 'sistema/css/style_detalle_producto.css' %}">
     <link rel="stylesheet" href="{% static 'sistema/css/style_navbar.css' %}">
     <link rel="stylesheet" href="{% static 'sistema/css/style_producto.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/style_carrito.css' %}">
     <script src="{% static 'sistema/js/script.js' %}"></script>
     <script src="{% static 'sistema/js/jquery-3.2.1.js' %}"></script>
     <link rel="stylesheet" href="{% static 'sistema/css/filtro.css' %}">
@@ -43,7 +44,7 @@
                         </button>
                     </form>
                     <li class="nav-item">
-                        <a href="../src/carrito_de_compras.html" class="nav-link">
+                        <a href="{% url 'ver_carro' %}" class="nav-link">
                             <i class="fas fa-shopping-cart"></i>
                             <span id="cart-counter" class="cart-counter">0</span>
                         </a>
@@ -106,28 +107,30 @@
         $(document).ready(function () {
             $(".category_item").click(function (e) {
                 e.preventDefault();
-                var category = $(this).attr("category");
-
+                var categoria = $(this).attr("categoria");
+    
                 $.ajax({
                     url: "{% url 'filter_products' %}",
                     data: {
-                        'category': category
+                        'category': categoria
                     },
                     dataType: 'json',
                     success: function (data) {
-                        var products_html = '';
+                        var productos_html = '';
                         for (var i = 0; i < data.products.length; i++) {
-                            products_html += `
-                                <div class="col product-item" category="${data.products[i].category.toLowerCase()}">
+                            productos_html += `
+                                <div class="col product-item" categoria="${data.products[i].category.toLowerCase()}">
                                     <div class="card shadow-sm h-100">
                                         <div class="container-foto">
                                             <article class="articlefotos">
-                                                <img src="${data.products[i].image_url}">
-                                                <img src="${data.products[i].image_url}">
+                                                <img src="${data.products[i].imagen_url}">
+                                                <img src="${data.products[i].imagen_url}">
                                             </article>
                                         </div>
                                         <div class="card-body">
-                                            <p class="card-title">${data.products[i].name}</p>
+                                            <p class="card-title">${data.products[i].nombre}</p>
+                                            <p class="card-text">${data.products[i].descripcion}</p>
+                                            <p class="card-text">Precio: $${data.products[i].precio}</p>
                                         </div>
                                         <div class="card-footer bg-transparent">
                                             <div class="d-flex justify-content-between align-items-center">
@@ -144,11 +147,30 @@
                                     </div>
                                 </div>`;
                         }
-                        $('.products-list').html(products_html);
+                        $('.products-list').html(productos_html);
                     }
                 });
             });
         });
+    </script>
+
+<script>
+    $(document).ready(function () {
+        $('.agregar-carrito').click(function (e) {
+            e.preventDefault();
+            var product_id = $(this).data('id');
+    
+            $.ajax({
+                url: "{% url 'agregar_producto' 0 %}".replace('0', product_id),
+                method: "GET",
+                success: function (data) {
+                    var cart_counter = $('#cart-counter');
+                    var count = parseInt(cart_counter.text()) + 1;
+                    cart_counter.text(count);
+                }
+            });
+        });
+    });
     </script>
 </body>
 
