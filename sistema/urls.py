@@ -3,6 +3,8 @@ from .import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('filter/', views.filter_products, name='filter_products'),
+
     
   
 ]

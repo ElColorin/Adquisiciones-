@@ -10,16 +10,31 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='products/')
-
+    price = models.IntegerField()
+    image = models.ImageField(upload_to="products", null=True)
+    categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
+    
+    
     def __str__(self):
         return self.name
 
+    
+
+  
+
+
+   
+
 class Post(models.Model):
-    title = models.CharField(max_length=255)
-    content = models.TextField()
+    Title = models.CharField(max_length=255)
+    Content = models.TextField()
+
+
+  
+
+   

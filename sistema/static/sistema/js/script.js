@@ -35,3 +35,51 @@ $(document).ready(function(){
 		} setTimeout(showAll,400);
 	});
 });
+
+
+$(document).ready(function(){
+	$(".category_item").click(function(e){
+		e.preventDefault();
+		var category = $(this).attr("category");
+
+		$.ajax({
+			url: "{% url 'filter_products' %}",
+			data: {
+				'category': category
+			},
+			dataType: 'json',
+			success: function(data){
+				var products_html = '';
+				for (var i = 0; i < data.products.length; i++) {
+					products_html += `
+						<div class="col product-item" category="${data.products[i].category.toLowerCase()}">
+							<div class="card shadow-sm h-100">
+								<div class="container-foto">
+									<article class="articlefotos">
+										<img src="${data.products[i].image_url}">
+										<img src="${data.products[i].image_url}">
+									</article>
+								</div>
+								<div class="card-body">
+									<p class="card-title">${data.products[i].name}</p>
+								</div>
+								<div class="card-footer bg-transparent">
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="btn-group">
+											<a href="#" class="btn btn-primary">
+												<i class="bi bi-info-circle-fill"> Detalles</i>
+											</a>
+										</div>
+										<a href="#" class="btn btn-danger" type="button">
+											<i class="bi-cart-fill me-1"> Agregar</i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>`;
+				}
+				$('.products-list').html(products_html);
+			}
+		});
+	});
+});
