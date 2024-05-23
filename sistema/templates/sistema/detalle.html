@@ -1,0 +1,53 @@
+{% extends 'sistema/base.html'%}
+{% block contenido %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/estiloDetalleFigura.css'%}">
+</head>
+
+<body>
+    <div class="container-fluid">
+      
+        <section>   
+            <section class="product-detalle">
+                <div class="card-wrapper">
+                    {%for p in products  %}
+                        <div class="card">
+                            <div class="product-imgs">
+                                <div class="img-display">
+                                    <div class="img-showcase">
+                                        {% if p.image %}
+                                        <img src="{{ p.imagen.url }}">
+                                        {% endif %}
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h2 class="product-title">{{ p.name }}</h2>
+                                <div class="product-price">
+                                    <p class="last-price">Precio:$ <span>{{ p.price }}</span></p>
+                                </div>
+                                <div class="product-detail">
+                                    <h2>Sobre este producto:</h2>
+                                    <ul>
+                                        <li>Nombre del Producto: {{ fp.name }}</li>
+                                        <li>Categoria: {{ p.categoria }}</li>
+                                        <li>Descripción: {{ p.description }}</li>
+                                    </ul>
+                                </div>
+                                <div class="purchase-info">
+                                    <div data-pushbar-id="pushbar-carrito"
+                                            class="pushbar from right pushbar-carrito"></div>
+                                            <a href="#" class="btn btn-danger" type="button">
+                                                <i class="bi-cart-fill me-1"> Agregar al carrito</i> 
+                                            </a>
+                                </div>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
+            </section>
+</body>
+{% endblock %}

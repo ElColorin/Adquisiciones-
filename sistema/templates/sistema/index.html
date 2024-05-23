@@ -1,6 +1,7 @@
 {% extends 'sistema/base.html' %}
 {% block contenido %}
 {% load static %}
+{% load humanize %}
 
 
     <div class="wrap">
@@ -13,17 +14,18 @@
                 {% endfor %}
             </div>
             <section class="products-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                {% for product in products %}
+                {% for p in products %}
                 <div class="col product-item" category="{{ product.categoria.name|lower }}">
                     <div class="card shadow-sm h-100">
                         <div class="container-foto">
                             <article class="articlefotos">
-                                <img src="{{ product.image.url }}">
-                                <img src="{{ product.image.url }}">
+                                <img src="{{ p.image.url }}">
+                                <img src="{{ p.image.url }}">
                             </article>
                         </div>
                         <div class="card-body">
-                            <p class="card-title">{{ product.name }}</p>
+                            <p class="card-title">{{ p.name }}</p>
+                            <p class="card-text"><strong>${{p.price | intcomma}}</strong></p>
                         </div>
                         <div class="card-footer bg-transparent">
                             <div class="d-flex justify-content-between align-items-center">
