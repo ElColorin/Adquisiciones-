@@ -1,4 +1,7 @@
 from django.db import models
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.translation import gettext, gettext_lazy as _
 
 # Create your models here.
 
@@ -26,7 +29,17 @@ class Product(models.Model):
 
     
 
-  
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label=_("Nombre de usuario"), max_length=150)
+    password = forms.CharField(label=_("Contraseña"), strip=False, widget=forms.PasswordInput)
+
+    error_messages = {
+        'invalid_login': _(
+            "Por favor, asegúrate de que los datos ingresados son correctos. "
+            "Ambos campos pueden ser sensibles a mayúsculas y minúsculas."
+        ),
+        'inactive': _("Esta cuenta está inactiva."),
+    }
 
 
    

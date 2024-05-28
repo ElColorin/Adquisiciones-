@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xerx@80e_a=-sv18=4oeak23z4cm_cw7n2rch=jirws&y+ui9w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.199.103.123']
+ALLOWED_HOSTS = ['34.199.103.123', '127.0.0.1']
 
 
 # Application definition
@@ -39,9 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'sistema',
+    'coreapi',
     'rest_framework',
     'drf_yasg',
+    
 ]
+
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,8 +84,12 @@ WSGI_APPLICATION = 'adquisicion.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Productos',
+        'USER': 'postgres',
+        'PASSWORD': 'GwenStacy65love',
+        'HOST': 'localhost',  
+        'PORT': '5432',       
     }
 }
 
@@ -129,3 +138,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+}

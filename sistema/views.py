@@ -1,8 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import Product, Category
+from .models import Product, Category, CustomAuthenticationForm
 from .carro import Carro
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+
+
 def index(request):
     query = request.GET.get('q')
     if query:
@@ -67,3 +71,30 @@ def procesar_compra(request):
     carro = Carro(request)
     carro.limpiar_carro()
     messages.success(request, 'Gracias por su Compra!!')
+    return render(request, 'sistema/procesar_compra.html')
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = CustomAuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Bienvenido {username}!')
+                return redirect('index')  # Redirige a la página principal de productos después del login
+            else:
+                messages.error(request, 'Usuario o contraseña incorrectos')
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos')
+    else:
+        form = CustomAuthenticationForm()  # Utiliza el formulario personalizado
+    return render(request, 'sistema/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, 'Has cerrado sesión correctamente')
+    return redirect('index')  # Redirige a la página principal de productos después del logout

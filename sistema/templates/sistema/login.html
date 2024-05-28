@@ -1,0 +1,33 @@
+<!-- login.html -->
+
+{% load static %}
+
+
+
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'sistema/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'sistema/css/style.css' %}">
+    <title>Iniciar Sesión</title>
+</head>
+<body class="login-body">
+    <div class="container-login">
+        <h2>Iniciar Sesión</h2>
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button-login">Ingresar</button>
+        </form>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
