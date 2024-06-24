@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xerx@80e_a=-sv18=4oeak23z4cm_cw7n2rch=jirws&y+ui9w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.199.103.123', '127.0.0.1']
+ALLOWED_HOSTS = [ '127.0.0.1']
 
 
 # Application definition
@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'adquisicion.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Productos',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'GwenStacy65love',
-        'HOST': 'localhost',  
+        'HOST': 'database-1.cldqhios9c9h.us-east-1.rds.amazonaws.com',  
         'PORT': '5432',       
     }
 }
