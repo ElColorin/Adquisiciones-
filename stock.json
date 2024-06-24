@@ -1,0 +1,14 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "nombre_producto": "Producto 1",
+            "stock": 50
+        },
+        {
+            "id": 2,
+            "nombre_producto": "Producto 2",
+            "stock": 30
+        }
+    ]
+}
