@@ -9,6 +9,11 @@
             "id": 2,
             "nombre_producto": "Producto 2",
             "stock": 30
+        },
+         {
+            "id": 5,
+            "nombre_producto": "Producto 5",
+            "stock": 30
         }
     ]
 }
