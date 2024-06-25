@@ -29,9 +29,9 @@ class Carro:
         self.session.modified = True
 
     def eliminar(self, producto):
-        product_id = str(producto.id)
-        if product_id in self.carro:
-            del self.carro[product_id]
+        id = str(producto.id)
+        if id in self.carro:
+            del self.carro[id]
             self.guardar_carro()
 
     def restar(self, producto):
