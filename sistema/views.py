@@ -118,16 +118,20 @@ def cargar_stock_desde_github(carro):
 
 def procesar_compra(request):
     carro = Carro(request)
-    for key, item in carro.carro.items():
-        producto = Product.objects.get(id=item['producto_id'])
-        if producto.stock >= item['cantidad']:
-            producto.stock -= item['cantidad']
-            producto.save()
-        else:
-            messages.error(request, f"No hay suficiente stock para {item['nombre']}.")
-            return redirect('carrito')
+    for key, item in list(carro.carro.items()):
+        try:
+            producto = Product.objects.get(id=item['producto_id'])
+            if producto.stock >= item['cantidad']:
+                producto.stock -= item['cantidad']
+                producto.save()
+            else:
+                messages.error(request, f"No hay suficiente stock para {item['nombre']}.")
+                return redirect('ver_carro')
+        except Product.DoesNotExist:
+            messages.error(request, f"El producto {item['nombre']} ya no está disponible.")
+            del carro.carro[key]
 
-    cargar_stock_desde_github(carro)  # Pasar el carro como argumento
     carro.limpiar_carro()
+    cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
     messages.success(request, 'Gracias por su Compra!!')
     return redirect('productos')
