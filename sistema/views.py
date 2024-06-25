@@ -57,9 +57,14 @@ def ver_carro(request):
 
 def eliminar_producto(request, producto_id):
     carro = Carro(request)
-    producto = get_object_or_404(Product, id=producto_id)
-    if producto:
+    try:
+        producto = Product.objects.get(id=producto_id)
         carro.eliminar(producto)
+        messages.success(request, f'{producto.nombre_producto} ha sido eliminado del carrito.')
+    except Product.DoesNotExist:
+        # Si el producto no existe, lo eliminamos directamente del carrito
+        del carro.carro[str(producto_id)]
+        messages.error(request, 'El producto no existe, pero ha sido eliminado del carrito.')
     return redirect('ver_carro')
 
 def restar_producto(request, producto_id):
@@ -118,6 +123,8 @@ def cargar_stock_desde_github(carro):
 
 def procesar_compra(request):
     carro = Carro(request)
+    productos_no_disponibles = []
+    
     for key, item in list(carro.carro.items()):
         try:
             producto = Product.objects.get(id=item['producto_id'])
@@ -128,10 +135,14 @@ def procesar_compra(request):
                 messages.error(request, f"No hay suficiente stock para {item['nombre']}.")
                 return redirect('ver_carro')
         except Product.DoesNotExist:
-            messages.error(request, f"El producto {item['nombre']} ya no está disponible.")
-            del carro.carro[key]
+            productos_no_disponibles.append(item['nombre'])
+            del carro.carro[key]  # Eliminar producto inexistente del carrito
+    
+    if productos_no_disponibles:
+        messages.error(request, f"Los siguientes productos ya no están disponibles: {', '.join(productos_no_disponibles)}")
+        return redirect('ver_carro')
 
     carro.limpiar_carro()
     cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
-    messages.success(request, 'Gracias por su Compra!!')
-    return redirect('productos')
+    messages.success(request, 'Gracias por su compra!')
+    return redirect('index')
