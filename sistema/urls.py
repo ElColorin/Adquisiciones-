@@ -15,6 +15,7 @@ urlpatterns = [
     path('docs1/', include_docs_urls(title='Documentacion de la api')),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+    path('productos/', views.index, name='productos'),
     #path('agregar/<int:product_id>/', views.agregar_producto, name='agregar_producto'),
     #path('carrito/', views.ver_carro, name='ver_carro'),
     #path('product/<int:product_id>/', views.product_detail, name='product_detail'),

@@ -5,6 +5,7 @@ from .carro import Carro
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+import requests
 
 
 def index(request):
@@ -67,13 +68,6 @@ def restar_producto(request, producto_id):
     carro.restar(producto)
     return redirect('ver_carrito')
 
-def procesar_compra(request):
-    carro = Carro(request)
-    carro.limpiar_carro()
-    messages.success(request, 'Gracias por su Compra!!')
-    return render(request, 'sistema/procesar_compra.html')
-
-
 
 def login_view(request):
     if request.method == 'POST':
@@ -98,3 +92,42 @@ def logout_view(request):
     logout(request)
     messages.info(request, 'Has cerrado sesión correctamente')
     return redirect('index')  # Redirige a la página principal de productos después del logout
+
+
+GITHUB_RAW_URL = 'https://raw.githubusercontent.com/ElColorin/Adquisiciones-/Django/stock.json'
+
+def cargar_stock_desde_github(carro):
+    response = requests.get(GITHUB_RAW_URL)
+    if response.status_code == 200:
+        data = response.json()
+        for producto in data['products']:
+            try:
+                # Obtener el producto actual de la base de datos
+                producto_bd = Product.objects.get(id=producto['id'])
+                # Obtener la cantidad comprada de ese producto del carrito
+                if str(producto_bd.id) in carro.carro:
+                    cantidad_comprada = carro.carro[str(producto_bd.id)]['cantidad']
+                    # Actualizar el stock en la base de datos restando la cantidad comprada
+                    producto_bd.stock -= cantidad_comprada
+                    producto_bd.save()
+            except Product.DoesNotExist:
+                print(f"Producto con id {producto['id']} no existe.")
+    else:
+        print("Error al cargar el archivo JSON desde GitHub")
+
+
+def procesar_compra(request):
+    carro = Carro(request)
+    for key, item in carro.carro.items():
+        producto = Product.objects.get(id=item['producto_id'])
+        if producto.stock >= item['cantidad']:
+            producto.stock -= item['cantidad']
+            producto.save()
+        else:
+            messages.error(request, f"No hay suficiente stock para {item['nombre']}.")
+            return redirect('carrito')
+
+    cargar_stock_desde_github(carro)  # Pasar el carro como argumento
+    carro.limpiar_carro()
+    messages.success(request, 'Gracias por su Compra!!')
+    return redirect('productos')

@@ -19,7 +19,7 @@ class Product(models.Model):
     nombre_producto = models.CharField(max_length=100)
     descripcion = models.TextField()
     precio = models.IntegerField()
-    Stock = models.CharField(max_length=100)
+    stock = models.CharField(max_length=100)
     imagen = models.ImageField(upload_to="products", null=True)
     categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
     
