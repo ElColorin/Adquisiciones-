@@ -132,10 +132,11 @@ def procesar_compra(request):
                 producto.stock -= item['cantidad']
                 producto.save()
             else:
-                messages.error(request, f"No hay suficiente stock para {item['nombre']}.")
+                messages.error(request, f"No hay suficiente stock para {producto.nombre_producto}.")
                 return redirect('ver_carro')
         except Product.DoesNotExist:
-            productos_no_disponibles.append(item['nombre'])
+            nombre_producto = item.get('nombre', 'Producto desconocido')
+            productos_no_disponibles.append(nombre_producto)
             del carro.carro[key]  # Eliminar producto inexistente del carrito
     
     if productos_no_disponibles:
