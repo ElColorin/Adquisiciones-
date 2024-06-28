@@ -110,7 +110,7 @@ def login_view(request):
         else:
             messages.error(request, 'Error en la validación de usuario')
         
-    return render(request, 'Sistema/login.html')
+    return render(request, 'sistema/login.html')
 
 def logout_view(request):
     logout(request)
