@@ -1,75 +1,65 @@
-/* Estilos para el cuerpo de la página */
-body.login-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-}
+/* login.css */
 
-/* Estilos para el contenedor del formulario */
+
 .container-login {
     background-color: #fff;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    max-width: 90%;
-    margin: auto; /* Centra el contenedor horizontalmente */
-}
-
-/* Estilos para el título "Iniciar Sesión" */
-h2 {
-    margin-bottom: 20px;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto; /* Añade esta línea para centrar horizontalmente */
+}
+.container-login h2 {
+    margin-bottom: 25px;
     color: #333;
+    font-size: 24px;
 }
 
-/* Estilos para el formulario */
-.login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los elementos del formulario */
+.loginxd label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    text-align: left;
+    font-size: 14px;
 }
 
-/* Estilos para los campos del formulario */
-.login-form input[type="text"],
-.login-form input[type="password"] {
-    padding: 10px;
+.loginxd input[type="text"],
+.loginxd input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-bottom: 15px;
-    width: calc(100% - 22px); /* Ancho ajustado para incluir el padding y el borde */
-    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
-/* Estilos para el botón de enviar */
-.button-login {
-    padding: 10px 20px;
-    background-color: #428bca;
-    color: #fff;
+.loginxd button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
     border: none;
     border-radius: 5px;
+    color: white;
+    font-size: 16px;
     cursor: pointer;
-    margin-bottom: 15px;
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    box-sizing: border-box; /* Incluye el padding en el ancho total */
+    transition: background-color 0.3s ease;
 }
 
-/* Estilos para el botón de enviar al pasar el mouse */
-.button-login:hover {
-    background-color: #3071a9;
+.loginxd button:hover {
+    background-color: #0056b3;
 }
 
-/* Estilos para la lista de mensajes (si la hubiera) */
-ul {
+.container-login ul {
     list-style-type: none;
     padding: 0;
+    margin-top: 20px;
+    color: red;
+    font-size: 14px;
 }
 
-/* Estilos para los mensajes de error o éxito */
-ul li {
-    color: red; /* Color rojo para mensajes de error */
+.container-login ul li {
+    margin-bottom: 10px;
 }

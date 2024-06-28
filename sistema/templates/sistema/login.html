@@ -2,8 +2,6 @@
 
 {% load static %}
 
-
-
 <html>
 <head>
     <link rel="stylesheet" href="{% static 'sistema/css/login.css' %}">
@@ -13,11 +11,16 @@
 <body class="login-body">
     <div class="container-login">
         <h2>Iniciar Sesión</h2>
-        <form method="post" action="{% url 'login' %}" class="login-form">
+        <form method="post" action="{% url 'login' %}" class="loginxd">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="button-login">Ingresar</button>
-        </form>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+            
+            <button type="submit">Login</button>
+        </form>        
         {% if messages %}
             <ul>
                 {% for message in messages %}

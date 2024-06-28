@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import Product, Category, CustomAuthenticationForm
+from .models import Product, Category, CustomAuthenticationForm, Carrito
 from .carro import Carro
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 import requests
+from django.utils import timezone
+
 
 
 def index(request):
@@ -71,27 +73,44 @@ def restar_producto(request, producto_id):
     producto = get_object_or_404(Product, pk=producto_id)
     carro = Carro(request)
     carro.restar(producto)
-    return redirect('ver_carrito')
+    return redirect('ver_carro')
 
 
 def login_view(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f'Bienvenido {username}!')
-                return redirect('index')  # Redirige a la página principal de productos después del login
+        username = request.POST.get('admin.adquisiciones')
+        password = request.POST.get('adquisiciones')
+        token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZHF1aXNpY2lvbmVzIjoidG9rZW5fYWRxdWlzaWNpb25lcyJ9.8cKAY45kC9w9gJAp2a_h99A4RZJEuFcExBcoVfwZIc0'
+        
+        # Datos para la solicitud POST
+        data = {
+            'username': username,
+            'password': password,
+            'token': token
+        }
+        
+        headers = {
+            'content-type': 'aplication/json',
+        }
+
+        # URL del endpoint de validación
+        url = 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com/validacionUsuarios/'
+        
+        # Realizar la solicitud POST
+        response = requests.post(url, json=data)
+        
+        if response.status_code == 200:
+            result = response.json()
+            if result.get('valid', False):
+                # Iniciar sesión en el sistema
+                messages.success(request, 'Inicio de sesión exitoso')
+                return redirect('index')  
             else:
-                messages.error(request, 'Usuario o contraseña incorrectos')
+                messages.error(request, 'Credenciales inválidas')
         else:
-            messages.error(request, 'Usuario o contraseña incorrectos')
-    else:
-        form = CustomAuthenticationForm()  # Utiliza el formulario personalizado
-    return render(request, 'sistema/login.html', {'form': form})
+            messages.error(request, 'Error en la validación de usuario')
+        
+    return render(request, 'Sistema/login.html')
 
 def logout_view(request):
     logout(request)
@@ -124,13 +143,21 @@ def cargar_stock_desde_github(carro):
 def procesar_compra(request):
     carro = Carro(request)
     productos_no_disponibles = []
-    
+
+    # Crear un nuevo objeto Carrito en la base de datos
+    nuevo_carrito = Carrito()
+    nuevo_carrito.fecha_compra = timezone.now()
+    nuevo_carrito.cantidad_total = carro.cantidad_total_productos()
+    nuevo_carrito.save()
+
     for key, item in list(carro.carro.items()):
         try:
             producto = Product.objects.get(id=item['producto_id'])
             if producto.stock >= item['cantidad']:
                 producto.stock -= item['cantidad']
                 producto.save()
+                # Añadir productos al nuevo carrito
+                nuevo_carrito.productos.add(producto)
             else:
                 messages.error(request, f"No hay suficiente stock para {producto.nombre_producto}.")
                 return redirect('ver_carro')
@@ -138,11 +165,12 @@ def procesar_compra(request):
             nombre_producto = item.get('nombre', 'Producto desconocido')
             productos_no_disponibles.append(nombre_producto)
             del carro.carro[key]  # Eliminar producto inexistente del carrito
-    
+
     if productos_no_disponibles:
         messages.error(request, f"Los siguientes productos ya no están disponibles: {', '.join(productos_no_disponibles)}")
         return redirect('ver_carro')
 
+    nuevo_carrito.save()
     carro.limpiar_carro()
     cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
     messages.success(request, 'Gracias por su compra!')

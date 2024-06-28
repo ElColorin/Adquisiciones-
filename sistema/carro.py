@@ -48,3 +48,6 @@ class Carro:
 
     def importe_total_carro(self):
         return sum(item["precio"] * item["cantidad"] for item in self.carro.values())
+
+    def cantidad_total_productos(self):
+        return sum(item["cantidad"] for item in self.carro.values())

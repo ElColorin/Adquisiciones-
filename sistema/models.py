@@ -2,6 +2,7 @@ from django.db import models
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext, gettext_lazy as _
+from django.utils import timezone
 
 # Create your models here.
 
@@ -26,7 +27,6 @@ class Product(models.Model):
     
     def __str__(self):
         return self.nombre_producto
-
     
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -41,12 +41,25 @@ class CustomAuthenticationForm(AuthenticationForm):
         'inactive': _("Esta cuenta está inactiva."),
     }
 
-
    
-
 class Post(models.Model):
     Title = models.CharField(max_length=255)
     Content = models.TextField()
+
+
+class Carrito(models.Model):
+    fecha_adquisicion = models.DateTimeField(auto_now_add=True)
+    cantidad_total = models.IntegerField()
+    productos = models.ManyToManyField('Product', related_name='carritos')
+
+    # Otros campos y métodos si los tienes
+
+    def __str__(self):
+        return f'Carrito {self.id}'
+
+   
+
+    
 
 
   

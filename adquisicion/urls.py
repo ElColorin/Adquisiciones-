@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from sistema.api.router import router_posts
 from sistema.api.router import router_producto
+from sistema.api.router import router_carrito
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.conf import settings
@@ -41,8 +42,10 @@ urlpatterns = [
     path('', include('sistema.urls')),
     path('api/', include(router_posts.urls)),
     path('api/v1', include(router_producto.urls)),
+    path('api/', include(router_carrito.urls)),
     path('Docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redocs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    
     
  
 
