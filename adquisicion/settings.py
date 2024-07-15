@@ -85,10 +85,10 @@ WSGI_APPLICATION = 'adquisicion.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'nopuede',
         'USER': 'postgres',
         'PASSWORD': 'GwenStacy65love',
-        'HOST': 'database-2.cldqhios9c9h.us-east-1.rds.amazonaws.com',  
+        'HOST': 'localhost',  
         'PORT': '5432',       
     }
 }

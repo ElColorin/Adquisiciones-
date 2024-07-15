@@ -7,23 +7,51 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 import requests
 from django.utils import timezone
+import json
 
-
+PROVIDERS_API_URL = 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com/proveedor/productos'
+PROVIDERS_CATEGORIES_API_URL = 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com/proveedor/categorias'
+API_KEY = 'ywtS9pGyNp8ndqyW3nLoj8mANCUd8cxO8irRwD4s'
 
 def index(request):
-    query = request.GET.get('q')
-    if query:
-        products = Product.objects.filter(nombre_producto__icontains=query)
-    else:
-        products = Product.objects.all()
+    query = request.GET.get('q', '')
+    category_id = request.GET.get('category', '')
     
-    categories = Category.objects.all()
-    data = {
-        'categories': categories,
-        'products': products,
-        'query': query,
+    headers = {
+        'x-api-key': API_KEY,
     }
-    return render(request, 'sistema/index.html', data)
+    
+    try:
+        response = requests.get(PROVIDERS_API_URL, headers=headers)
+        response.raise_for_status()
+        productos = response.json()
+        
+        # Obtener categorías
+        categories_response = requests.get(PROVIDERS_CATEGORIES_API_URL, headers=headers)
+        categories_response.raise_for_status()
+        categories = categories_response.json()
+        
+        # Filtrar productos por búsqueda
+        if query:
+            productos = [producto for producto in productos if query.lower() in producto['nombre_producto'].lower()]
+        
+        # Filtrar productos por categoría
+        if category_id:
+            productos = [producto for producto in productos if str(producto['categoria_id_categoria']) == category_id]
+        
+        data = {
+            'products': productos,
+            'categories': categories,
+            'query': query,
+            'selected_category': category_id,
+        }
+        return render(request, 'sistema/index.html', data)
+    
+    except requests.RequestException as e:
+        print(f"Error al obtener los productos de la API de proveedores: {e}")
+        messages.error(request, 'Error al obtener los productos de la API de proveedores.')
+        return render(request, 'sistema/index.html', {'products': [], 'categories': [], 'query': query, 'selected_category': category_id})
+    
 
 def filter_products(request):
     category_name = request.GET.get('category')
@@ -48,10 +76,28 @@ def filter_products(request):
 
 
 def agregar_producto(request, product_id):
-    carro = Carro(request)
-    producto = get_object_or_404(Product, id=product_id)
-    carro.agregar(producto)
+    headers = {
+        'x-api-key': API_KEY,
+    }
+    
+    try:
+        response = requests.get(f'{PROVIDERS_API_URL}/{product_id}', headers=headers)
+        response.raise_for_status()
+        producto = response.json()
+        
+        # Imprimir la respuesta de la API para verificar su estructura
+        print(json.dumps(producto, indent=4))
+        
+        # Crear una instancia del carrito y agregar el producto
+        carro = Carro(request)
+        carro.agregar(producto)
+        messages.success(request, f'{producto["nombre_producto"]} ha sido agregado al carrito.')
+    except requests.RequestException as e:
+        print(f"Error al obtener el producto de la API de proveedores: {e}")
+        messages.error(request, 'Error al agregar el producto al carrito.')
+    
     return redirect('index')
+
 
 def ver_carro(request):
     carro = Carro(request)
@@ -59,15 +105,26 @@ def ver_carro(request):
 
 def eliminar_producto(request, producto_id):
     carro = Carro(request)
+    print('error_carrito')
+    headers = {
+        'x-api-key': API_KEY,
+    }
+    
     try:
-        producto = Product.objects.get(id=producto_id)
+        response = requests.get(f'{PROVIDERS_API_URL}/{producto_id}', headers=headers)
+        response.raise_for_status()
+        producto = response.json()
         carro.eliminar(producto)
+        print('carro')
         messages.success(request, f'{producto.nombre_producto} ha sido eliminado del carrito.')
+        print('try')
     except Product.DoesNotExist:
+        print('except')
         # Si el producto no existe, lo eliminamos directamente del carrito
         del carro.carro[str(producto_id)]
         messages.error(request, 'El producto no existe, pero ha sido eliminado del carrito.')
     return redirect('ver_carro')
+  
 
 def restar_producto(request, producto_id):
     producto = get_object_or_404(Product, pk=producto_id)
@@ -75,42 +132,57 @@ def restar_producto(request, producto_id):
     carro.restar(producto)
     return redirect('ver_carro')
 
-
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('admin.adquisiciones')
-        password = request.POST.get('adquisiciones')
+        print('xd')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZHF1aXNpY2lvbmVzIjoidG9rZW5fYWRxdWlzaWNpb25lcyJ9.8cKAY45kC9w9gJAp2a_h99A4RZJEuFcExBcoVfwZIc0'
         
         # Datos para la solicitud POST
-        data = {
-            'username': username,
-            'password': password,
-            'token': token
-        }
+        payload = json.dumps({
+            "username": username,
+            "password": password,
+            "token": token
+        })
         
         headers = {
-            'content-type': 'aplication/json',
+            'Content-Type': 'application/json'
         }
 
         # URL del endpoint de validación
         url = 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com/validacionUsuarios/'
         
-        # Realizar la solicitud POST
-        response = requests.post(url, json=data)
-        
-        if response.status_code == 200:
-            result = response.json()
-            if result.get('valid', False):
-                # Iniciar sesión en el sistema
-                messages.success(request, 'Inicio de sesión exitoso')
-                return redirect('index')  
+        try:
+            # Realizar la solicitud POST
+            response = requests.post(url, headers=headers, data=payload)
+            print(f"Response status code: {response.status_code}")
+            print(f"Response content: {response.content}")
+            
+            if response.status_code == 200:
+                print("Resultado Exitoso")
+                result = response.json()
+                print(f"Result: {result}")
+                if result.get('valid', False):
+                    # Autenticar al usuario en Django
+                    user = authenticate(request, username=username, password=password)
+                    if user is not None:
+                        login(request, user)
+                        messages.success(request, 'Inicio de sesión exitoso')
+                        return redirect('index')
+                    else:
+                        messages.error(request, 'No se pudo autenticar al usuario en el sistema local')
+                else:
+                    messages.error(request, 'Credenciales inválidas')
             else:
-                messages.error(request, 'Credenciales inválidas')
-        else:
-            messages.error(request, 'Error en la validación de usuario')
+                messages.error(request, 'Error en la validación de usuario')
         
-    return render(request, 'sistema/login.html')
+        except Exception as e:
+            print(f"Exception occurred: {e}")
+            messages.error(request, 'Ocurrió un error durante la solicitud de validación')
+        return redirect('index')
+    else:
+        return render(request, 'Sistema/login.html')
 
 def logout_view(request):
     logout(request)
@@ -148,6 +220,7 @@ def procesar_compra(request):
     nuevo_carrito = Carrito()
     nuevo_carrito.fecha_compra = timezone.now()
     nuevo_carrito.cantidad_total = carro.cantidad_total_productos()
+    nuevo_carrito.precio = int(carro.importe_total_carro())
     nuevo_carrito.save()
 
     for key, item in list(carro.carro.items()):
@@ -175,3 +248,5 @@ def procesar_compra(request):
     cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
     messages.success(request, 'Gracias por su compra!')
     return redirect('index')
+
+

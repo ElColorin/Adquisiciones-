@@ -3,51 +3,49 @@
 {% load static %}
 {% load humanize %}
 
+<h1>Productos</h1>
 
- <div class="wrap">
-    <h1>Escoge un producto</h1>
-    <div class="store-wrapper">
-        <div class="category_list">
-            <a href="#" class="category_item" categoria="all">Todo</a>
-            {% for categoria in categories %}
-            <a href="#" class="category_item" categoria="{{ categoria.name|lower }}">{{ categoria.name }}</a>
-            {% endfor %}
-        </div>
-            <section class="products-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                {% for p in products %}
-                <div class="col product-item" category="{{ product.categoria.name|lower }}">
-                    <div class="card shadow-sm h-100">
-                        <div class="container-foto">
-                            <article class="articlefotos">
-                                <img src="{{ p.imagen.url }}">
-                                <img src="{{ p.imagen.url }}">
-                            </article>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-title">{{ p.nombre_producto }}</p>
-                            <p class="card-text"><strong>${{p.precio | intcomma}}</strong></p>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a href="#" class="btn btn-primary">
-                                        <i class="bi bi-info-circle-fill"> Detalles</i>
-                                    </a>
-                                </div>
-                                <a href="{% url 'agregar_producto' p.id %}" class="btn btn-danger" type="button">
-                                    <i class="bi-cart-fill me-1"> Agregar</i>
-                                </a>
-                            </div>
-                        </div>
+<form method="GET" action="{% url 'index' %}">
+    <label for="category">Categoría:</label>
+    <select name="category" id="category">
+        <option value="">Todas</option>
+        {% for category in categories %}
+            <option value="{{ category.id_categoria }}" {% if selected_category == category.id_categoria|stringformat:"s" %}selected{% endif %}>{{ category.nombre_categoria }}</option>
+        {% endfor %}
+    </select>
+    
+    <button type="submit">Buscar</button>
+</form>
+
+<section class="products-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    {% for p in products %}
+        <div class="card shadow-sm h-100">
+            <div class="container-foto">
+                <article class="articlefotos">
+                    <img src="{{ p.imagen_producto }}" alt="{{ p.nombre_producto }}" width="100">
+                    <img src="{{ p.imagen_producto }}" alt="{{ p.nombre_producto }}" width="100">
+                </article>
+            </div>
+            <div class="card-body">
+                <p class="card-title">{{ p.nombre_producto }}</p>
+                <p class="card-text"><strong>${{ p.precio_producto | intcomma }}</strong></p>
+                <p>{{ p.descripcion_producto }}</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-primary">
+                            <i class="bi bi-info-circle-fill"> Detalles</i>
+                        </a>
                     </div>
+                    <a href="{% url 'agregar_producto' p.id_producto %}" class="btn btn-danger" type="button">
+                        <i class="bi-cart-fill me-1"> Agregar</i>
+                    </a>
                 </div>
-                {% empty %}
-                <p>No se encontraron productos.</p>
-                {% endfor %}
-            </section>
+            </div>
         </div>
-    </div>
+    {% empty %}
+    <p>No se encontraron productos.</p>
+    {% endfor %}
+</section>
 {% endblock %}
-
-
-

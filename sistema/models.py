@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext, gettext_lazy as _
 from django.utils import timezone
-
+import requests
 # Create your models here.
 
 from django.db import models
@@ -51,8 +51,10 @@ class Carrito(models.Model):
     fecha_adquisicion = models.DateTimeField(auto_now_add=True)
     cantidad_total = models.IntegerField()
     productos = models.ManyToManyField('Product', related_name='carritos')
+    precio = models.IntegerField()
 
     # Otros campos y métodos si los tienes
+
 
     def __str__(self):
         return f'Carrito {self.id}'

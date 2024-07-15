@@ -96,7 +96,7 @@ html{
 
 body{
 	background: linear-gradient(150deg, #EEEEEE, #32E0C4, #393E46);
-    height: 100vh;
+    height: 1000vh;
 	font-family: 'Open Sans', sans-serif;
 
 }
@@ -331,4 +331,5 @@ footer{
 		width: 100%;
 		margin-left: 0px;
 	}
+
 }
