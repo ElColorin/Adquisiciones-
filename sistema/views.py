@@ -254,16 +254,16 @@ def procesar_compra(request):
                         id=producto['id_producto'],
                         defaults={
                             'nombre_producto': producto['nombre_producto'],
-                            'descripcion': producto['descripcion_producto'],
-                            'precio': producto['precio_producto'],
-                            'stock': producto['stock_producto'],
-                            'imagen': producto['imagen_producto'],
+                            'descripcion_producto': producto['descripcion_producto'],
+                            'precio_producto': producto['precio_producto'],
+                            'stock_producto': producto['stock_producto'],
+                            'imagen_producto': producto['imagen_producto'],
                             'categoria': categoria
                         }
                     )
                     
                     # Actualizar el stock del producto
-                    producto_obj.stock -= item['cantidad']
+                    producto_obj.stock_producto -= item['cantidad']
                     producto_obj.save()
                     
                     # Añadir el producto al carrito
@@ -274,8 +274,8 @@ def procesar_compra(request):
             else:
                 # Producto local
                 producto = get_object_or_404(Product, id=item['producto_id'])
-                if producto.stock >= item['cantidad']:
-                    producto.stock -= item['cantidad']
+                if producto.stock_producto >= item['cantidad']:
+                    producto.stock_producto -= item['cantidad']
                     producto.save()
                     nuevo_carrito.productos.add(producto)
                 else:
