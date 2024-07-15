@@ -29,7 +29,7 @@ class Carro:
         self.session.modified = True
 
     def eliminar(self, producto):
-        id = str(producto.id_producto)
+        id = str(producto['id_producto'])
         if id in self.carro:
             del self.carro[id]
             self.guardar_carro()

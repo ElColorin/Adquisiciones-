@@ -116,7 +116,7 @@ def eliminar_producto(request, producto_id):
         producto = response.json()
         carro.eliminar(producto)
         print('carro')
-        messages.success(request, f'{producto.nombre_producto} ha sido eliminado del carrito.')
+        messages.success(request, f'{producto['nombre_producto']} ha sido eliminado del carrito.')
         print('try')
     except Product.DoesNotExist:
         print('except')
