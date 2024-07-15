@@ -240,6 +240,10 @@ def procesar_compra(request):
                 varcategoria = Category()
                 varcategoria.id = categories['id_categoria']
                 varcategoria.name = categories['nombre_categoria']
+                try:
+                    varcategoria.save()
+                except:
+                    print("ya existe")
                 variable = Product()
                 variable.nombre_producto= producto['nombre_producto']
                 variable.descripcion= producto['descripcion_producto']
@@ -248,7 +252,13 @@ def procesar_compra(request):
                 variable.imagen= producto['imagen_productoo']
                 variable.categoria= varcategoria
                 variable.id= producto['id_producto']
+                try:
+                    variable.save()
+                except:
+                    print("ya existe")
+
                 nuevo_carrito.productos.add(variable)
+                
             else:
                 messages.error(request, f"No hay suficiente stock para {producto['nombre_producto']}.")
                 return redirect('ver_carro')
