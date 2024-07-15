@@ -15,5 +15,8 @@ class ProductosApiViewSet(ModelViewSet):
     queryset = Product.objects.all()
 
 class CarritoApiViewSet(ModelViewSet):
-    serializer_class = CarritoSerializer
     queryset = Carrito.objects.all()
+    serializer_class = CarritoSerializer
+
+    def get_queryset(self):
+        return Carrito.objects.prefetch_related('productos').all()

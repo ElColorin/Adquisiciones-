@@ -17,12 +17,13 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    nombre_producto = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    precio = models.IntegerField()
-    stock = models.IntegerField()
-    imagen = models.ImageField(upload_to="products", null=True)
-    categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
+    id_producto = models.AutoField(primary_key=True)
+    nombre_producto = models.CharField(max_length=200)
+    descripcion_producto = models.TextField()
+    precio_producto = models.DecimalField(max_digits=10, decimal_places=2)
+    stock_producto = models.IntegerField()
+    imagen_producto = models.ImageField(upload_to='productos/')
+    categoria = models.ForeignKey(Category, on_delete=models.CASCADE)
     
     
     def __str__(self):
