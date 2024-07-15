@@ -224,15 +224,19 @@ def procesar_compra(request):
     nuevo_carrito.save()
 
     for key, item in list(carro.carro.items()):
+        headers = {
+        'x-api-key': API_KEY,
+        }
+    
         try:
-            producto = Product.objects.get(id=item['producto_id'])
-            if producto.stock >= item['cantidad']:
-                producto.stock -= item['cantidad']
-                producto.save()
+            response = requests.get(f'{PROVIDERS_API_URL}/{item['producto_id']}', headers=headers)
+            response.raise_for_status()
+            producto = response.json()
+            if producto['stock_producto'] >= item['cantidad']:
                 # Añadir productos al nuevo carrito
                 nuevo_carrito.productos.add(producto)
             else:
-                messages.error(request, f"No hay suficiente stock para {producto.nombre_producto}.")
+                messages.error(request, f"No hay suficiente stock para {producto['nombre_producto']}.")
                 return redirect('ver_carro')
         except Product.DoesNotExist:
             nombre_producto = item.get('nombre', 'Producto desconocido')
