@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext, gettext_lazy as _
 from django.utils import timezone
-import requests
+
 # Create your models here.
 
 from django.db import models
@@ -17,13 +17,12 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    id_producto = models.AutoField(primary_key=True)
-    nombre_producto = models.CharField(max_length=200)
-    descripcion_producto = models.TextField()
-    precio_producto = models.DecimalField(max_digits=10, decimal_places=2)
-    stock_producto = models.IntegerField()
-    imagen_producto = models.ImageField(upload_to='productos/')
-    categoria = models.ForeignKey(Category, on_delete=models.CASCADE)
+    nombre_producto = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    precio = models.IntegerField()
+    stock = models.IntegerField()
+    imagen = models.ImageField(upload_to="products", null=True)
+    categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
     
     
     def __str__(self):
@@ -52,11 +51,8 @@ class Carrito(models.Model):
     fecha_adquisicion = models.DateTimeField(auto_now_add=True)
     cantidad_total = models.IntegerField()
     productos = models.ManyToManyField('Product', related_name='carritos')
-    precio = models.IntegerField()
 
     # Otros campos y métodos si los tienes
-
-
 
     def __str__(self):
         return f'Carrito {self.id}'
