@@ -9,20 +9,23 @@ import requests
 from django.db import models
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    id_categoria = models.IntegerField()
+    nombre_categoria = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.nombre_categoria
+    
 
 
 
 class Product(models.Model):
+    id_producto = models.IntegerField()
     nombre_producto = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    precio = models.IntegerField()
-    stock = models.IntegerField()
-    imagen = models.ImageField(upload_to="products", null=True)
-    categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
+    descripcion_producto = models.TextField()
+    stock_producto = models.IntegerField()
+    precio_producto = models.IntegerField()
+    imagen_producto = models.ImageField(upload_to="products", null=True)
+    categoria_id_categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
     
     
     def __str__(self):
