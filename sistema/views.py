@@ -248,5 +248,3 @@ def procesar_compra(request):
     cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
     messages.success(request, 'Gracias por su compra!')
     return redirect('index')
-
-
