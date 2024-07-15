@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import Product, Category, CustomAuthenticationForm, Carrito
+from .models import Producto, Categoria, CustomAuthenticationForm, Carrito
 from .carro import Carro
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -56,16 +56,16 @@ def index(request):
 def filter_products(request):
     category_name = request.GET.get('category')
     if category_name and category_name != 'all':
-        products = Product.objects.filter(categoria__name__iexact=category_name)
+        products = Producto.objects.filter(categoria__name__iexact=category_name)
     else:
-        products = Product.objects.all()
+        products = Producto.objects.all()
 
     products_data = [{
-        'nombre': product.nombre_producto,
-        'descripcion': product.descripcion,
-        'precio': product.precio,
-        'imagen_url': product.imagen.url,
-        'category': product.categoria.name,
+        'nombre': Producto.nombre_producto,
+        'descripcion': Producto.descripcion,
+        'precio': Producto.precio,
+        'imagen_url': Producto.imagen.url,
+        'category': Producto.categoria.name,
     } for product in products]
 
     return JsonResponse({'products': products_data})
@@ -118,7 +118,7 @@ def eliminar_producto(request, producto_id):
         print('carro')
         messages.success(request, f'{producto['nombre_producto']} ha sido eliminado del carrito.')
         print('try')
-    except Product.DoesNotExist:
+    except Producto.DoesNotExist:
         print('except')
         # Si el producto no existe, lo eliminamos directamente del carrito
         del carro.carro[str(producto_id)]
@@ -199,14 +199,14 @@ def cargar_stock_desde_github(carro):
         for producto in data['products']:
             try:
                 # Obtener el producto actual de la base de datos
-                producto_bd = Product.objects.get(id=producto['id'])
+                producto_bd = Producto.objects.get(id=producto['id'])
                 # Obtener la cantidad comprada de ese producto del carrito
                 if str(producto_bd.id) in carro.carro:
                     cantidad_comprada = carro.carro[str(producto_bd.id)]['cantidad']
                     # Actualizar el stock en la base de datos restando la cantidad comprada
                     producto_bd.stock -= cantidad_comprada
                     producto_bd.save()
-            except Product.DoesNotExist:
+            except Producto.DoesNotExist:
                 print(f"Producto con id {producto['id']} no existe.")
     else:
         print("Error al cargar el archivo JSON desde GitHub")
@@ -238,7 +238,7 @@ def procesar_compra(request):
             else:
                 messages.error(request, f"No hay suficiente stock para {producto['nombre_producto']}.")
                 return redirect('ver_carro')
-        except Product.DoesNotExist:
+        except Producto.DoesNotExist:
             nombre_producto = item.get('nombre', 'Producto desconocido')
             productos_no_disponibles.append(nombre_producto)
             del carro.carro[key]  # Eliminar producto inexistente del carrito
