@@ -212,10 +212,6 @@ def cargar_stock_desde_github(carro):
         print("Error al cargar el archivo JSON desde GitHub")
 
 
-PROVIDERS_API_URL = 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com/proveedor/productos'
-PROVIDERS_CATEGORIES_API_URL = 'https://qic534o8o0.execute-api.us-east-1.amazonaws.com/proveedor/categorias'
-API_KEY = 'ywtS9pGyNp8ndqyW3nLoj8mANCUd8cxO8irRwD4s'
-
 def procesar_compra(request):
     carro = Carro(request)
     productos_no_disponibles = []
@@ -229,60 +225,16 @@ def procesar_compra(request):
 
     for key, item in list(carro.carro.items()):
         try:
-            proveedor = item.get('proveedor', False)  # Obtener la clave 'proveedor' de manera segura
-            if proveedor:
-                # Producto del proveedor
-                headers = {'x-api-key': API_KEY}
-                response = requests.get(f'{PROVIDERS_API_URL}/{item["producto_id"]}', headers=headers)
-                response.raise_for_status()
-                producto = response.json()
-
-                if producto['stock_producto'] >= item['cantidad']:
-                    # Verificar la categoría del producto
-                    category_response = requests.get(f'{PROVIDERS_CATEGORIES_API_URL}/{producto["categoria_id_categoria"]}', headers=headers)
-                    category_response.raise_for_status()
-                    category_data = category_response.json()
-                    
-                    # Crear o obtener la categoría
-                    categoria, created = Category.objects.get_or_create(
-                        id=category_data['id_categoria'],
-                        defaults={'name': category_data['nombre_categoria']}
-                    )
-                    
-                    # Crear o obtener el producto del proveedor
-                    producto_obj, created = Product.objects.get_or_create(
-                        id=producto['id_producto'],
-                        defaults={
-                            'nombre_producto': producto['nombre_producto'],
-                            'descripcion_producto': producto['descripcion_producto'],
-                            'precio_producto': producto['precio_producto'],
-                            'stock_producto': producto['stock_producto'],
-                            'imagen_producto': producto['imagen_producto'],
-                            'categoria': categoria
-                        }
-                    )
-                    
-                    # Actualizar el stock del producto
-                    producto_obj.stock_producto -= item['cantidad']
-                    producto_obj.save()
-                    
-                    # Añadir el producto al carrito
-                    nuevo_carrito.productos.add(producto_obj)
-                else:
-                    messages.error(request, f"No hay suficiente stock para {producto['nombre_producto']}.")
-                    return redirect('ver_carro')
+            producto = Product.objects.get(id=item['producto_id'])
+            if producto.stock >= item['cantidad']:
+                producto.stock -= item['cantidad']
+                producto.save()
+                # Añadir productos al nuevo carrito
+                nuevo_carrito.productos.add(producto)
             else:
-                # Producto local
-                producto = get_object_or_404(Product, id=item['producto_id'])
-                if producto.stock_producto >= item['cantidad']:
-                    producto.stock_producto -= item['cantidad']
-                    producto.save()
-                    nuevo_carrito.productos.add(producto)
-                else:
-                    messages.error(request, f"No hay suficiente stock para {producto.nombre_producto}.")
-                    return redirect('ver_carro')
-
-        except (requests.RequestException, Product.DoesNotExist) as e:
+                messages.error(request, f"No hay suficiente stock para {producto.nombre_producto}.")
+                return redirect('ver_carro')
+        except Product.DoesNotExist:
             nombre_producto = item.get('nombre', 'Producto desconocido')
             productos_no_disponibles.append(nombre_producto)
             del carro.carro[key]  # Eliminar producto inexistente del carrito
@@ -296,3 +248,5 @@ def procesar_compra(request):
     cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
     messages.success(request, 'Gracias por su compra!')
     return redirect('index')
+
+
