@@ -9,7 +9,7 @@ import requests
 from django.db import models
 
 class Categoria(models.Model):
-    id_categoria = models.IntegerField()
+    id_categoria = models.IntegerField(primary_key=True)
     nombre_categoria = models.CharField(max_length=100)
 
     def __str__(self):
@@ -19,13 +19,13 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    id_producto = models.IntegerField()
+    id_producto = models.IntegerField(primary_key=True)
     nombre_producto = models.CharField(max_length=100)
     descripcion_producto = models.TextField()
     stock_producto = models.IntegerField()
     precio_producto = models.IntegerField()
     imagen_producto = models.ImageField(upload_to="products", null=True)
-    categoria_id_categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
+    categoria_id_categoria = models.IntegerField()
     
     
     def __str__(self):
