@@ -8,24 +8,21 @@ import requests
 
 from django.db import models
 
-class Categoria(models.Model):
-    id_categoria = models.IntegerField(primary_key=True)
-    nombre_categoria = models.CharField(max_length=100)
+class Category(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre_categoria
-    
+        return self.name
 
 
 
-class Producto(models.Model):
-    id_producto = models.IntegerField(primary_key=True)
+class Product(models.Model):
     nombre_producto = models.CharField(max_length=100)
-    descripcion_producto = models.TextField()
-    stock_producto = models.IntegerField()
-    precio_producto = models.IntegerField()
-    imagen_producto = models.ImageField(upload_to="products", null=True)
-    categoria_id_categoria = models.IntegerField()
+    descripcion = models.TextField()
+    precio = models.IntegerField()
+    stock = models.IntegerField()
+    imagen = models.ImageField(upload_to="products", null=True)
+    categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
     
     
     def __str__(self):
@@ -57,6 +54,7 @@ class Carrito(models.Model):
     precio = models.IntegerField()
 
     # Otros campos y métodos si los tienes
+
 
 
     def __str__(self):
