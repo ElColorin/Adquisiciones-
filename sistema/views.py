@@ -232,9 +232,23 @@ def procesar_compra(request):
             response = requests.get(f'{PROVIDERS_API_URL}/{item['producto_id']}', headers=headers)
             response.raise_for_status()
             producto = response.json()
+            categories_response = requests.get(f'{PROVIDERS_CATEGORIES_API_URL}/{producto['categoria_id_categoria']}', headers=headers)
+            categories_response.raise_for_status()
+            categories = categories_response.json()
             if producto['stock_producto'] >= item['cantidad']:
                 # Añadir productos al nuevo carrito
-                nuevo_carrito.productos.add(producto)
+                varcategoria = Category()
+                varcategoria.id = categories['id_categoria']
+                varcategoria.name = categories['nombre_categoria']
+                variable = Product()
+                variable.nombre_producto= producto['nombre_producto']
+                variable.descripcion= producto['descripcion_producto']
+                variable.precio= producto['precio_producto']
+                variable.stock= producto['stock_producto']
+                variable.imagen= producto['imagen_productoo']
+                variable.categoria= varcategoria
+                variable.id= producto['id_producto']
+                nuevo_carrito.productos.add(variable)
             else:
                 messages.error(request, f"No hay suficiente stock para {producto['nombre_producto']}.")
                 return redirect('ver_carro')
