@@ -8,7 +8,7 @@ import requests
 
 from django.db import models
 
-class Category(models.Model):
+class Categoria(models.Model):
     id_categoria = models.IntegerField()
     nombre_categoria = models.CharField(max_length=100)
 
@@ -18,14 +18,14 @@ class Category(models.Model):
 
 
 
-class Product(models.Model):
+class Producto(models.Model):
     id_producto = models.IntegerField()
     nombre_producto = models.CharField(max_length=100)
     descripcion_producto = models.TextField()
     stock_producto = models.IntegerField()
     precio_producto = models.IntegerField()
     imagen_producto = models.ImageField(upload_to="products", null=True)
-    categoria_id_categoria = models.ForeignKey(Category, on_delete=models.PROTECT)
+    categoria_id_categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
     
     
     def __str__(self):
