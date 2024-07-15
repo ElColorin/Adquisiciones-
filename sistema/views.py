@@ -229,7 +229,8 @@ def procesar_compra(request):
 
     for key, item in list(carro.carro.items()):
         try:
-            if item['proveedor']:
+            proveedor = item.get('proveedor', False)  # Obtener la clave 'proveedor' de manera segura
+            if proveedor:
                 # Producto del proveedor
                 headers = {'x-api-key': API_KEY}
                 response = requests.get(f'{PROVIDERS_API_URL}/{item["producto_id"]}', headers=headers)
@@ -295,4 +296,3 @@ def procesar_compra(request):
     cargar_stock_desde_github(carro)  # Llamar a la función para actualizar el stock
     messages.success(request, 'Gracias por su compra!')
     return redirect('index')
-

@@ -10,7 +10,7 @@ class Carro:
             carro = self.session['carro'] = {}
         self.carro = carro
 
-    def agregar(self, producto):
+    def agregar(self, producto, proveedor=False):
         product_id = str(producto['id_producto'])  # Cambiar 'id' a 'id_producto'
         precio = float(producto['precio_producto'])  # Asegurarse de que el precio sea un número
         if product_id not in self.carro:
@@ -19,7 +19,8 @@ class Carro:
                 'nombre': producto['nombre_producto'],
                 'precio': precio,  # Asegurarse de que el precio sea un número
                 'cantidad': 1,
-                'imagen': producto['imagen_producto']
+                'imagen': producto['imagen_producto'],
+                'proveedor': proveedor
             }
         else:
             self.carro[product_id]['cantidad'] += 1
