@@ -220,7 +220,6 @@ def procesar_compra(request):
     nuevo_carrito = Carrito()
     nuevo_carrito.fecha_compra = timezone.now()
     nuevo_carrito.cantidad_total = carro.cantidad_total_productos()
-    nuevo_carrito.precio = int(carro.importe_total_carro())
     nuevo_carrito.save()
 
     for key, item in list(carro.carro.items()):
